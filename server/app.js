@@ -43,6 +43,14 @@ console.log(listener.disabled("logs"));
 
 listener.use(favicon());
 
+// request object
+// request.query,request.params,request.body,request.route, request.header,
+// request.ip, request.ips (array of ips if trust proxy configurations is enabled)
+
+// response object
+// response.render,response.locals,response.set,response.status,response.send,
+// response.json,response.jsonp,response.redirect
+
 listener.use((err, req, res, next) => {
   if (process.env.NODE_ENV === "production") {
     // don't show sensitive errors
