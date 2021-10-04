@@ -2,11 +2,11 @@ const http = require(http);
 
 const server = http.createServer(/* request listener*/);
 
-const boot = () => [
+const boot = () => {
   server.listen(/*PORT*/ 2000, () => {
     console.log("server running at port 2000");
-  }),
-];
+  });
+};
 const shutdown = () => {
   server.close();
 };
