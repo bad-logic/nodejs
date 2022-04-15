@@ -59,7 +59,7 @@ listener.use((err, req, res, next) => {
       error: {},
     });
   } else if (process.env.NODE_ENV === "development") {
-    // show sesible error so that they can be corrected
+    // show sensible error so that they can be corrected
     res.status(err.status || 500).json({
       message: err.message,
       error: err,
