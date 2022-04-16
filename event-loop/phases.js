@@ -1,6 +1,6 @@
 // Reference: https://heynode.com/tutorial/how-event-loop-works-nodejs/
 // Reference: https://www.dynatrace.com/news/blog/all-you-need-to-know-to-really-understand-the-node-js-event-loop-and-its-metrics/
-
+// Reference: https://heynode.com/tutorial/explore-immediate-callbacks-phase-nodes-event-loop/
 /*
 
 Event loop phases
@@ -65,7 +65,9 @@ I/O CALLBACKS: Executes I/O callbacks of completed or errored out I/O operations
 IDLE/PREPARE: It is primarily used for gathering information, and planning of what needs to be executed during the next tick of the Event Loop.
 
 I/O POLLING: JavaScript code that we write is executed. Based on the code it may execute immediately, or it may add something to the queue to be executed 
-             during a future tick of the Event Loop. this phase is optional, If there are any setImmediate() timers scheduled, Node.js will skip this phase 
+             during a future tick of the Event Loop.
+
+             NOTE: This phase is optional, If there are any setImmediate() timers scheduled, Node.js will skip this phase 
              during the current tick and move to the setImmediate() phase.
 
              If there are no functions in the queue, and no timers, the application will wait for callbacks to be added to the queue and execute them 
@@ -75,6 +77,12 @@ I/O POLLING: JavaScript code that we write is executed. Based on the code it may
 setImmediate CALLBACK / check phase : Node.js has a special timer, setImmediate(), and its callbacks are executed during this phase. This phase runs as soon as 
                                     the poll phase becomes idle. If setImmediate() is scheduled within the I/O cycle it will always be executed before other timers 
                                     regardless of how many timers are present.
+
+    NOTE: setImmediate() will always be executed before any timers if scheduled within an I/O cycle, regardless of how many other timers are present and their
+    elapsed delay time. This differs from when it is set in the "polling" phase, where we don't have any setImmediate() callbacks yet, and the polling timer 
+    may not be set to 0. In this case, the delay of other timers may be elapsed prior to the Event Loop moving into the setImmediate() callbacks phase. 
+    This, in turn, will lead to those timers' callbacks being executed prior to our setImmediate() callback. setImmediate set in polling phase is hard to predict, 
+    may or may not be executed right after the polling phase, this depends on the performance of the process.
 
 CLOSE CALLBACKS: Executes the callbacks of all close events. E.X. process.exit()
                  This is when the Event Loop is wrapping up one cycle and is ready to move to the next one. It is primarily used to clean the state of the 
