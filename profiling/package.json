@@ -1,0 +1,19 @@
+{
+  "name": "profiling",
+  "version": "1.0.0",
+  "description": "",
+  "main": "logreader.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --inspect server.js",
+    "profile": "node --prof logreader.js",
+    "readable-profile": "node --prof-process something-v8.log > profile"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3",
+    "heapdump": "^0.3.15"
+  }
+}
