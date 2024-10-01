@@ -1,3 +1,10 @@
+/**
+ *
+ * @param {number[]} arr
+ * @param {number} s start index
+ * @param {number} e end index
+ * @returns
+ */
 function quick(arr, s, e) {
   if (e - s <= 0) return arr;
   let pos = s;
