@@ -9,12 +9,12 @@ function getFib(n) {
 const fibRecursionCache = {};
 function getRecursiveFib(n) {
   if (n === 0 || n === 1) return n;
-  if (fibRecursionCache[n]) return fibRecursionCache[n];
-  const n1 = BigInt(getRecursiveFib(n - 1));
-  const n2 = BigInt(getRecursiveFib(n - 2));
-  fibRecursionCache[n - 1] = n1;
-  fibRecursionCache[n - 2] = n2;
-  return n1 + n2;
+  if (!fibRecursionCache[n]) {
+    const n1 = BigInt(getRecursiveFib(n - 1));
+    const n2 = BigInt(getRecursiveFib(n - 2));
+    fibRecursionCache[n] = n1 + n2;
+  }
+  return fibRecursionCache[n];
 }
 
 const fibIterativeCache = {};

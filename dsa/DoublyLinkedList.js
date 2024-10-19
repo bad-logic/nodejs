@@ -132,6 +132,7 @@ function print(node) {
 }
 
 var myLinkedList = new MyLinkedList();
+debugger;
 myLinkedList.addAtHead(1);
 myLinkedList.addAtTail(3);
 myLinkedList.addAtIndex(1, 2); // linked list becomes 1->2->3
