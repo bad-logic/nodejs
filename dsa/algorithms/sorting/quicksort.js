@@ -40,4 +40,5 @@ if (require.main === module) {
   console.log({ sorted: quickSort([1, 5, 2, -1, 4, 5, -7, 90, 3, 56, 2]) });
   console.log({ sorted: quickSort([4, 2, 3, 6, 1]) });
   console.log({ sorted: quickSort([4, 3, 2, 1]) });
+  console.log({ sorted: quickSort([1, 6, 4, 3, 2, 5]) });
 }
