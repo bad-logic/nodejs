@@ -1,6 +1,3 @@
-// Reference: https://heynode.com/tutorial/how-event-loop-works-nodejs/
-// Reference: https://www.dynatrace.com/news/blog/all-you-need-to-know-to-really-understand-the-node-js-event-loop-and-its-metrics/
-// Reference: https://heynode.com/tutorial/explore-immediate-callbacks-phase-nodes-event-loop/
 /*
 
 Event loop phases
