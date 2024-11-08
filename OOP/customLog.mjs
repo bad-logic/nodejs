@@ -1,4 +1,4 @@
-const util = require('node:util');
+import util from 'node:util';
 
 class Hello {
   #msg;
