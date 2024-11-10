@@ -9,7 +9,7 @@
 - Synchronous Tasks are handled by v8.
 - Asynchronous ( n/w request, handling files ) Tasks are handled by libuv.
 
-![NODEJS RUNTIME](/assets/nodejs_runtime.png)
+![NODEJS RUNTIME](./assets/nodejs_runtime.png)
 
 #### Execution Order
 
