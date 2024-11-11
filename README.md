@@ -70,67 +70,53 @@ handlePromise();
 
 1. Synchronous user written JS codes are executed first. and when V8 callStack is empty it will execute microTasks.
 2. `MicroTask Queue Execution`: After call stack is emptied, all callbacks in microTask queue is executed.
-   > MicroTask Queue has two Queues ( nextTick and promise ). nextTick has precedence over promise queue. only after emptying nextTick queue, promise queue is executed.
-3. `Timers Phase` : Callbacks of timer queues are pushed to V8 callStack if they are ready and executed.
-4. `MicroTask Queue Execution`: After call stack is emptied, any callbacks in microTask queue is executed.
-5. `I/O Phase` : Callbacks of I/O queues are pushed to V8 callStack if they are ready and executed.
-6. `MicroTask Queue Execution`
-7. `I/O Polling / Poll Phase` : Checks if the I/O operations are complete and queue the corresponding callback to I/O callback queue.
-8. `Check Phase` : All callbacks of the check queue are pushed to V8 callStack and executed.
-9. `MicroTask Queue Execution`
-10. `Close Callbacks Phase`: All callbacks in the close queue are pushed to V8 callStack and executed.
-11. `MicroTask Queue Execution`
+   - MicroTask Queue has two Queues ( nextTick and promise ).
+   - nextTick has precedence over promise queue. only after emptying nextTick queue, promise queue is executed.
+   - To move the control to next phase, callbacks from both queues should be empty.
+3. `Timers Phase` : Callbacks of completed timer from timer queues are pushed to v8 one by one and executed. on every callback execution the control is passed to microTask and back.
+4. `MicroTask Queue Execution`: After Each callback execution in Timers Phase, microTask is checked, and if it has callbacks, they are executed and control is passed back to timers Phase.
+5. `I/O Phase` : Callbacks of completed I/O operations from I/O queues are pushed to V8 one by one and executed. on every callback execution the control is passed to microTask and back.
+6. `MicroTask Queue Execution`: After Each callback execution in I/O Phase, microTask is checked, and if it has callbacks, they are executed and control is passed back to I/O Phase.
+7. `I/O Polling / Poll Phase` : Checks if the I/O operations are complete and queues the corresponding callback to I/O callback queue.
+8. `Check Phase` : Each callbacks from check queue are pushed to V8 callStack one by one and executed. on every callback execution the control is passed to microTask and back.
+9. `MicroTask Queue Execution`: After Each callback execution in Check Phase, microTask is checked, and if it has callbacks, they are executed and control is passed back to Check Phase.
+10. `Close Callbacks Phase`: Each callbacks from Close queue are pushed to V8 callStack one by one and executed. on every callback execution the control is passed to microTask and back.
+11. `MicroTask Queue Execution`: After Each callback execution in Close Phase, microTask is checked, and if it has callbacks, they are executed and control is passed back to Close Phase.
 
 ```
- -------------------------------------------------------------------------
-|                                                                         |
-|              -----------------------------------                        |
-|        |---->|  nextTickQueue -> promises       |                       |
-|        |     -----------------------------------                        |
-|        |                     |                                          |
-|        |     -----------------------------------                        |
-|         ---->|             TIMERS              |                        |
-|        |     -----------------------------------                        |
-|        |                     |                                          |
-|        |     -----------------------------------                        |
-|        |---->|  nextTickQueue -> promises      |                        |
-|        |     -----------------------------------                        |
-|        |                     |                                          |
-|        |     -----------------------------------                        |
-|        |-----|          I/O CALLBACKS          |                        |
-|        |     -----------------------------------                        |
-|        |                     |                                          |
-|        |     -----------------------------------                        |
-|        |---->|  nextTickQueue -> promises      |                        |
-|        |     -----------------------------------                        |
-|        |                     |                                          |
-|        |     -----------------------------------                        |
-|        |-----|         I/O POLLING             |                        |
-|        |     -----------------------------------                        |
-|        |                     |                                          |
-|        |     -----------------------------------                        |
-|        |---->|  nextTickQueue -> promises      |                        |
-|        |     -----------------------------------                        |
-|        |                     |                                          |
-|        |     -----------------------------------                        |
-|        |-----|    setImmediate CALLBACKS       |                        |
-|        |     -----------------------------------                        |
-|        |                     |                                          |
-|        |     -----------------------------------                        |
-|        |---->|  nextTickQueue -> promises      |                        |
-|        |     -----------------------------------                        |
-|        |                     |                                          |
-|        |     -----------------------------------                        |
-|        |---->|         CLOSE CALLBACKS         |                        |
-|        |     -----------------------------------                        |
-|        |                     |                                          |
-|        |     -----------------------------------                        |
-|        |---->|  nextTickQueue -> promises      |                        |
-|              -----------------------------------                        |
-|                                                                         |
-|                                                                         |
-|                                                                         |
- -------------------------------------------------------------------------
+ ------------------------------------------------------------------------------------------------
+|                                                                                                |
+|              -----------------------------------                                               |
+|        |---->|  nextTickQueue -> promises       |                                              |
+|        |     -----------------------------------                                               |
+|        |                     |                                                                 |
+|        |     -----------------------------------       -----------------------------------     |
+|         ---->|             TIMERS              | ---->|  nextTickQueue -> promises        |    |
+|        |     -----------------------------------       -----------------------------------     |
+|        |                     |                                                                 |
+|        |                     |                                                                 |
+|        |     -----------------------------------       -----------------------------------     |
+|         ---->|          I/O CALLBACKS          | ---->|  nextTickQueue -> promises        |    |
+|        |     -----------------------------------       -----------------------------------     |
+|        |                     |                                                                 |
+|        |                     |                                                                 |
+|        |     -----------------------------------                                               |
+|         ---->|          I/O POLLING            |                                               |
+|        |     -----------------------------------                                               |
+|        |                     |                                                                 |
+|        |                     |                                                                 |
+|        |     -----------------------------------       -----------------------------------     |
+|         ---->|      setImmediate CALLBACKS     | ---->|  nextTickQueue -> promises        |    |
+|        |     -----------------------------------       -----------------------------------     |
+|        |                     |                                                                 |
+|        |                     |                                                                 |
+|        |     -----------------------------------       -----------------------------------     |
+|         ---->|        CLOSE CALLBACKS          | ---->|  nextTickQueue -> promises        |    |
+|        |     -----------------------------------       -----------------------------------     |
+|                                                                                                |
+|                                                                                                |
+|                                                                                                |
+ -------------------------------------------------------------------------------------------------
 ```
 
 #### MicroTasks
