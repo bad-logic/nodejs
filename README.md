@@ -81,7 +81,7 @@ handlePromise();
    Example: `ECONNREFUSED` when attempting to connect. some unix systems want to wait to report the error. This callback will be deferred to execute in the pending callbacks phase.
 6. `I/O Polling / Poll Phase` : When event loop enters Poll Phase, one of the two things happen:
 
-   1. if poll/(I/O) queue is not empty, Callbacks are pushed to V8 one by one and executed. on every callback execution the control is passed to microTask and back.
+   1. if poll / (I/O) queue is not empty, Callbacks are pushed to V8 one by one and executed. on every callback execution the control is passed to microTask and back.
    2. if poll queue is empty, one of the two things will happen:
       i. if `setImmediate()` queue has callbacks, it will end poll phase and move to check phase.
       ii. if not, NODEJS might block the event loop and poll for i/o operations to complete and add corresponding callbacks to the poll queue and execute them immediately.
