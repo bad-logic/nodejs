@@ -17,7 +17,7 @@
 - All JS code are executed in v8 CallStack.
 - Only after the call stack is emptied, the event loop comes into play.
 - within the event loop, each phase executes callback scheduled for that particular queue.
-- After Each phase the callbacks from microTasks are executed.
+- After Each phase, the callbacks from microTasks are executed.
 
 - Having lots of synchronous code will starve the event loop.
 
