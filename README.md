@@ -66,18 +66,28 @@ function handlePromise() {
 handlePromise();
 ```
 
-#### NODEJS EXECUTION STEPS:
+#### NODEJS EXECUTION ORDER:
 
 1. Synchronous user written JS codes are executed first. and when V8 callStack is empty it will execute microTasks.
 2. `MicroTask Queue Execution`: After call stack is emptied, all callbacks in microTask queue is executed.
+
    - MicroTask Queue has two Queues ( nextTick and promise ).
    - nextTick has precedence over promise queue. only after emptying nextTick queue, promise queue is executed.
    - To move the control to next phase, callbacks from both queues should be empty.
+
 3. `Timers Phase` : Callbacks of completed timer from timer queues are pushed to v8 one by one and executed. on every callback execution the control is passed to microTask and back.
 4. `MicroTask Queue Execution`: After Each callback execution in Timers Phase, microTask is checked, and if it has callbacks, they are executed and control is passed back to timers Phase.
-5. `I/O Phase` : Callbacks of completed I/O operations from I/O queues are pushed to V8 one by one and executed. on every callback execution the control is passed to microTask and back.
-6. `MicroTask Queue Execution`: After Each callback execution in I/O Phase, microTask is checked, and if it has callbacks, they are executed and control is passed back to I/O Phase.
-7. `I/O Polling / Poll Phase` : Checks if the I/O operations are complete and queues the corresponding callback to I/O callback queue.
+5. `I/O Pending Callback Phase` : This phase executes deferred callbacks for some system operations such as types of TCP errors.
+   Example: `ECONNREFUSED` when attempting to connect. some unix systems want to wait to report the error. This callback will be deferred to execute in the pending callbacks phase.
+6. `I/O Polling / Poll Phase` : When event loop enters Poll Phase, one of the two things happen:
+
+   1. if poll queue is not empty, Callbacks are pushed to V8 one by one and executed. on every callback execution the control is passed to microTask and back.
+   2. if poll queue is empty, one of the two things will happen:
+      i. if `setImmediate()` queue has callbacks, it will end poll phase and move to check phase.
+      ii. if not, NODEJS might block the event loop and poll for i/o operations to complete and add corresponding callbacks to the poll queue and execute them immediately.
+      once the poll queue is empty, the control is passed to the timers phase.
+
+7. `MicroTask Queue Execution`: After Each callback execution in I/O Poll Phase, microTask is checked, and if it has callbacks, they are executed and control is passed back to I/O Poll Phase.
 8. `Check Phase` : Each callbacks from check queue are pushed to V8 callStack one by one and executed. on every callback execution the control is passed to microTask and back.
 9. `MicroTask Queue Execution`: After Each callback execution in Check Phase, microTask is checked, and if it has callbacks, they are executed and control is passed back to Check Phase.
 10. `Close Callbacks Phase`: Each callbacks from Close queue are pushed to V8 callStack one by one and executed. on every callback execution the control is passed to microTask and back.
@@ -96,13 +106,13 @@ handlePromise();
 |        |                     |                                                                 |
 |        |                     |                                                                 |
 |        |     -----------------------------------       -----------------------------------     |
-|         ---->|          I/O CALLBACKS          |<---->|  nextTickQueue -> promises        |    |
+|         ---->|          I/O Pending CALLBACKS  |<---->|  nextTickQueue -> promises        |    |
 |        |     -----------------------------------       -----------------------------------     |
 |        |                     |                                                                 |
 |        |                     |                                                                 |
-|        |     -----------------------------------                                               |
-|         ---->|          I/O POLLING            |                                               |
-|        |     -----------------------------------                                               |
+|        |     -----------------------------------       -----------------------------------     |
+|         ---->|          I/O POLLING            |<---->|  nextTickQueue -> promises        |    |
+|        |     -----------------------------------       -----------------------------------     |
 |        |                     |                                                                 |
 |        |                     |                                                                 |
 |        |     -----------------------------------       -----------------------------------     |
