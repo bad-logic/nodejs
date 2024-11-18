@@ -1,8 +1,7 @@
-import { error } from 'console';
-import fs, { createReadStream } from 'fs';
+import fs from 'fs';
 
 const filename = import.meta.dirname + '/log.io';
-let bytesRead = 0;
+// let bytesRead = 0;
 
 const fd = fs.openSync(filename);
 if (!fd) throw Error('file not found');
@@ -13,9 +12,11 @@ function readFile(fd) {
   //     bytesRead += bytes;
   //   });
 
+  // no need to track the bytes length; because we are already opening the file and reusing same fd; it automatically happens
+
   fs.read(fd, (err, bytes, buf) => {
     if (err) throw Error(err);
-    bytesRead += bytes;
+    // bytesRead += bytes;
     console.log(buf.toString());
   });
 }

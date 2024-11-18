@@ -1,6 +1,10 @@
-hello
-.vimrc
-.npmrc
-.gitignore
-.dockerignore
-lets write something
+yo soy un nino;hola
+buenos dias
+buenas noches
+manzana
+agua
+leche
+mucho gusto
+de nada
+gracias
+adios
