@@ -135,6 +135,36 @@ handlePromise();
 - NodeJS provides a wrapper around a v8's microTask queue to give a predictable behavior.
 - The priority of nextTick queue is higher than promise queue which is not the case in browser. in fact browser do not support nextTick api
 
+#### CommonJS VS ES Modules
+
+- Es modules being loaded is wrapped as an asynchronous operation, and thus the entire script is in promises microTask queue.
+
+- The following script will yield different output based on the extension of the file
+
+| .js                   | .mjs                  |
+| --------------------- | --------------------- |
+| start foo bar zoo baz | start bar foo zoo baz |
+
+```js
+const baz = () => console.log('baz');
+const foo = () => console.log('foo');
+const zoo = () => console.log('zoo');
+
+const start = () => {
+  console.log('start');
+  setImmediate(baz);
+  new Promise((resolve, reject) => {
+    resolve('bar');
+  }).then((resolve) => {
+    console.log(resolve);
+    process.nextTick(zoo);
+  });
+  process.nextTick(foo);
+};
+
+start();
+```
+
 #### Profile your application
 
 ```bash
