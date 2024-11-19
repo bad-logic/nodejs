@@ -177,6 +177,12 @@ $ node --prof program.<js|mjs>
 $ node --expose-gc --inspect program.<js|mjs>
 ```
 
+#### Garbage Collector Traces
+
+```bash
+$ node --trace-gc program.<js|mjs>
+```
+
 #### Increase the heap memory for the program
 
 ```bash
