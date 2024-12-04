@@ -177,6 +177,13 @@ $ node --prof program.<js|mjs>
 $ node --expose-gc --inspect program.<js|mjs>
 ```
 
+### Trace events in nodejs
+
+```bash
+$ node --trace-event-categories=v8,node.async_hooks program.<js|mjs>
+$ node --trace-event-categories=v8,node.async_hooks,node,node.bootstrap,node.perf,node.threadpoolwork.sync,node.threadpoolwork.async program.<js|mjs>
+```
+
 #### Garbage Collector Traces
 
 ```bash
