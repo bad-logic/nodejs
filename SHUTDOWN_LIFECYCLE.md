@@ -46,12 +46,12 @@ process.on('exit', (code) => {
 
 ```js
 process.on('SIGTERM', (signal) => {
-  console.log(`process ${process.pid} received SIGTERM signal`);
+  console.log(`process ${process.pid} received signal ${signal}`);
   process.exit(0);
 });
 
 process.on('SIGINT', (signal) => {
-  console.log(`process ${process.pid} received SIGINT signal`);
+  console.log(`process ${process.pid} received signal ${signal}`);
   process.exit(0);
 });
 ```
@@ -70,5 +70,23 @@ process.on('uncaughtException', (err) => {
 process.on('unhandledRejection', (reason, promise) => {
   console.log('unhandled rejection', reason, promise);
   process.exit(1);
+});
+```
+
+##### GRACEFUL SHUTDOWN
+
+```js
+process.on('', () => {
+  // close http server.
+  // close db connections.
+
+  // wait 1s for cleanup if any pending requests or connections needs to be closed
+
+  // By calling .unref(), the process can exit naturally if there is nothing else keeping the event loop active.
+  // .unref() method ensures that the timer does not keep the Node.js event loop active.
+  setTimeout(() => {
+    console.error('Forcing shutdown after timeout.');
+    process.exit(0);
+  }, 1000).unref();
 });
 ```
