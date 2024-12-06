@@ -165,31 +165,6 @@ const start = () => {
 start();
 ```
 
-#### Profile your application
-
-```bash
-$ node --prof program.<js|mjs>
-```
-
-#### Expose garbage collector for debugging memory issues
-
-```bash
-$ node --expose-gc --inspect program.<js|mjs>
-```
-
-### Trace events in nodejs
-
-```bash
-$ node --trace-event-categories=v8,node.async_hooks program.<js|mjs>
-$ node --trace-event-categories=v8,node.async_hooks,node,node.bootstrap,node.perf,node.threadpoolwork.sync,node.threadpoolwork.async program.<js|mjs>
-```
-
-#### Garbage Collector Traces
-
-```bash
-$ node --trace-gc program.<js|mjs>
-```
-
 #### Increase the heap memory for the program
 
 ```bash
