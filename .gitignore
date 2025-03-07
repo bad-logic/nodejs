@@ -2,3 +2,5 @@ node_modules/
 *.log
 *.out
 *.heapsnapshot
+
+.DS_Store
