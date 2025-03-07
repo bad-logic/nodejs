@@ -8,16 +8,16 @@ generate_migration(){
    if [ -z "$1" ]; then
       echo "please provide migration file name"
   else
-      docker exec -it todo_container npm run migration:generate $1
+      docker exec -it express_starter_container npm run migration:generate src/migrations/"$1"
   fi
 }
 
 run_migration(){
-      docker exec -it todo_container npm run migration:run
+      docker exec -it express_starter_container npm run migration:run
 }
 
 revert_migration(){
-      docker exec -it todo_container npm run migration:revert
+      docker exec -it express_starter_container npm run migration:revert
 }
 
 
@@ -32,7 +32,7 @@ elif [ "$1" = "migration:run" ]; then
     run_migration
 elif [ "$1" = "migration:revert" ]; then
     echo "reverting migration"
-    run_migration
+    revert_migration
 else
     echo "unknown command $1 $2"
 fi

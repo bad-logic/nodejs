@@ -15,16 +15,16 @@ import { EnvLoader, ExpressLoader, InfoLoader, ServerLoader, DatabaseLoader } fr
 if (require.main === module) {
   Settings.defaultZone = "utc";
   const loaders: CustomFunction<Promise<unknown>>[] = [EnvLoader,DatabaseLoader];
-  bootstrap(loaders)
-    .then(async () => {
+  bootstrap(loaders).then(async () => {
       // express configs
-      const app = await ExpressLoader(express());
+      const app = express();
+      ExpressLoader(app);
       await ServerLoader(app);
       // and print out starting log
       InfoLoader();
-    })
-    .catch((error: Error) => {
-      console.error(`❌ Application Crashed  ${error?.stack?.split("\n")}`);
-      process.exit(1);
+    }).catch((error: Error) => {
+        console.error("❌Error: ",error);
+        console.error(`🛑💻Application Crashed  ${error?.stack?.split("\n")}`);
+        process.exit(1);
     });
 }

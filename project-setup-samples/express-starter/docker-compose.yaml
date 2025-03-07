@@ -6,7 +6,7 @@ volumes:
 
 services:
   todo_backend_service:
-    image: todo
+    image: express_starter
     container_name: express_starter_container
     build:
       context: ./
@@ -14,13 +14,13 @@ services:
     environment:
       - API_PORT=8080
       - CORS_ALLOWED=http://localhost:3000
-#      - MAINTENANCE_MODE=0
-#      - DB_HOST=postgres
+      - MAINTENANCE_MODE=0
+      - DB_HOST=postgres
       - DB_PORT=5432
       - DB_NAME=test
       - DB_USER=test_user
       - DB_PASSWORD=testUser$123
-#      - DB_DIALECT=postgres
+      - DB_DIALECT=postgres
       - DEPLOYMENT_LANE=dev
     networks:
       - ex_starter_network
@@ -28,7 +28,7 @@ services:
       - 8080:8080
     volumes:
       - ./src:/usr/app/src:ro
-      - ./src/migrations:/usr/app/migrations:rw
+      - ./src/migrations:/usr/app/src/migrations:rw
       - ./build:/usr/app/build:rw
 
   postgres:

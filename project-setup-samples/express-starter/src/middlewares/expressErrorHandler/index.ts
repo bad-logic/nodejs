@@ -19,13 +19,3 @@ export const expressErrorHandler =
         .json({ message: "something went wrong" });
     }
   };
-
-
-export const asyncWrapper = (fnc:MiddlewareFunction<unknown>): MiddlewareFunction<void> => async(req:Request,res:Response,next:NextFunction)=>{
-    try{
-      const data = await fnc(req,res,next);
-      res.json(data);
-    }catch (err){
-      next(err);
-    }
-};

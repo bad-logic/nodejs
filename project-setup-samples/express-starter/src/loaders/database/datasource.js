@@ -2,8 +2,7 @@ import { DataSource,  } from "typeorm";
 import { Category, Todo } from "@modules/entities";
 import environment from "@lib/environment";
 
-
-export const pgDataSource = new DataSource({
+const pgDataSource = new DataSource({
   type: environment.dbDialect,
   host: environment.dbHost,
   port: environment.dbPort,
@@ -14,7 +13,7 @@ export const pgDataSource = new DataSource({
   logging: environment.dbLogging,
   entities: [Todo, Category],
   subscribers: [],
-  migrations: ["src/migrations"],
+  migrations: ["src/migrations/*"],
 });
 
 export default pgDataSource;

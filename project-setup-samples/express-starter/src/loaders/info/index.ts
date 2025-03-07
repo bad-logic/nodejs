@@ -8,7 +8,7 @@ import {meta} from "@utils/meta";
  */
 export const InfoLoader = (): void => {
   if (environment.underMaintenance) {
-    console.info("starting on maintenance mode. services may be unavailable");
+    console.warn("starting on maintenance mode. services may be unavailable");
   }
   console.info("");
   console.info("-------------------------------------------------------");

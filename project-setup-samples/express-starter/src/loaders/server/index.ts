@@ -37,7 +37,7 @@ const gracefulShutdown = (server: Server): (_:number)=>void => (code: number): v
   // By calling .unref(), the process can exit naturally if there is nothing else keeping the event loop active.
   // .unref() method ensures that the timer does not keep the Node.js event loop active.
   setTimeout(() => {
-    console.error("Forcing shutdown after timeout.");
+    console.error("🔌💥Forcing shutdown after timeout.");
     exit(code);
   }, options.timeout).unref();
 };
@@ -59,25 +59,24 @@ export const ServerLoader = (requestHandler: Application): Promise<Server> =>
 
     // when server is 'listening' event is fired log some info
     server.on("listening", () => {
-      console.info(`API server running on port ${apiPort} ✔️`);
+      console.info(`✅ http server started on port ${apiPort}`);
       return resolve(server);
     });
 
     // handling 'error' event fired by the server
     server.on("error", (error: Error) => {
-      console.error(`Application Crashed  ${error?.stack?.split("\n")}`);
+      console.error(`🛑💻Application Crashed  ${error?.stack?.split("\n")}`);
       return reject(error);
     });
 
     // handling kill commands
-
     process.on("SIGTERM", (signal) => {
-      console.log(`process ${process.pid} received signal ${signal}`);
+      console.warn(`⚠️process ${process.pid} received signal ${signal}`);
       shutdownHandler(0);
     });
 
     process.on("SIGINT", (signal) => {
-      console.log(`process ${process.pid} received signal ${signal}`);
+      console.warn(`⚠️process ${process.pid} received signal ${signal}`);
       shutdownHandler(0);
     });
 
@@ -86,7 +85,7 @@ export const ServerLoader = (requestHandler: Application): Promise<Server> =>
     process.on(
       "unhandledRejection",
       (reason: Error, _promise: Promise<unknown>) => {
-        console.error("unhandledRejection", reason, _promise);
+        console.error("❌unhandledRejection", reason, _promise);
         shutdownHandler(1);
       }
     );
@@ -98,7 +97,7 @@ export const ServerLoader = (requestHandler: Application): Promise<Server> =>
       // and spawn a new instance or restart using process monitors
       // @TODO remove error trust code and crash the server
       if (!ErrorHandler.isTrustedError(error)) {
-        console.error(`Application Crashed  ${error?.stack?.split("\n")}`);
+        console.error(`🛑💻Application Crashed  ${error?.stack?.split("\n")}`);
         shutdownHandler(1);
       }
     });

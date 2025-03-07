@@ -12,6 +12,6 @@ export const EnvLoader = (): Promise<void> =>
       console.error("❌ Unable to load environment variables");
       return reject(errorMessage);
     }
-    console.info("environment variables loaded  ✔️");
+    console.info("✅ environment variables loaded");
     return resolve();
   });

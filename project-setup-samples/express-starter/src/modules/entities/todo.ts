@@ -1,5 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, UpdateDateColumn } from "typeorm";
-import { Category } from "@modules/entities/category";
 
 @Entity()
 export class Todo{
@@ -23,9 +22,6 @@ export class Todo{
 
   @UpdateDateColumn()
   updated_at: Date | undefined;
-
-  @ManyToOne(() => Category, (category) => category.todos)
-  category: Category | undefined;
 
   constructor(title:string,description:string,due_date:Date) {
     this.description = description;

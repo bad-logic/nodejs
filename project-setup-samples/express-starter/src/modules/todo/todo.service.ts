@@ -1,11 +1,8 @@
-import { pgDataSource } from "../../loaders/database/datasource";
-import { Category, Todo } from "@modules/entities";
+import  pgDataSource  from "../../loaders/database/datasource";
+import { Todo } from "@modules/entities";
 import { NotFoundError } from "@lib/error";
 
-
 const todoRepository = pgDataSource.getRepository(Todo);
-const catRepository = pgDataSource.getRepository(Category);
-
 
 class TodoService{
 
@@ -14,31 +11,13 @@ class TodoService{
     return todo.id;
   };
 
-  addCategory = async (catId:number,todoId:number): Promise<number>=>{
-    const [cat,todo] = await Promise.all([catRepository.findOneBy({id:catId}),todoRepository.findOneBy({id:todoId})]);
-    if(!cat || !todo){
-      throw new NotFoundError("category or todo not found");
-    }
-    if(!cat.todos || cat.todos.length == 0){
-      cat.todos = [];
-    }
-    await catRepository.save({
-      ...cat,
-      todos:[...cat.todos,todo]
-    });
-    return todoId;
-  };
-
   getAllTodo = async():Promise<Todo[]>=>{
-    return todoRepository.find({
-      relations:{category:true}
-    });
+    return todoRepository.find();
   };
 
   getTodo = async(todoId:number):Promise<Todo|null>=>{
     return todoRepository.findOneBy({
-      id: todoId,
-      category: true
+      id: todoId
     });
   };
 
@@ -61,18 +40,6 @@ class TodoService{
     return this.updateTodoItem({id:todoId,complete:false});
   };
 
-  searchByCategory = async(categoryId:number):Promise<Todo[]>=>{
-    return todoRepository.find({
-      relations:{category:true},
-      where:{
-        category: {
-          id : categoryId,
-        },
-      }
-    },
-    );
-  };
-
   deleteTodo = async (todoId:number):Promise<number|undefined>=>{
     const todo = await todoRepository.findOneBy({id:todoId});
     if(!todo){
@@ -86,8 +53,7 @@ class TodoService{
     return todoRepository.find({
       where: {
         complete
-      },
-      relations:{category:true}
+      }
     });
   };
 }

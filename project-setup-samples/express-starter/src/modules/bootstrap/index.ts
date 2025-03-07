@@ -6,23 +6,11 @@ import { CustomFunction } from "@utils/types";
  * @param {CustomFunction} bootstrapFns
  * @returns {Promise<unknown>}
  */
-export const bootstrap =(
-  bootstrapFns: CustomFunction<Promise<unknown>>[]
-): Promise<void> => {
-  // const promiseList = bootstrapFns.map(
-  //   (fns: CustomFunction<Promise<unknown>>) => fns()
-  // );
-
-  return new Promise(async(resolve,reject)=>{
-    for (const fns of bootstrapFns) {
-      try{
-          await fns()
-      }catch (err){
-        return reject(err);
-      }
-    }
-
-  })
-
-  // return Promise.all(promiseList);
+export const bootstrap = (
+    bootstrapFns: CustomFunction<Promise<unknown>>[]
+): Promise<unknown[]> => {
+  const promiseList = bootstrapFns.map(
+      (fns: CustomFunction<Promise<unknown>>) => fns()
+  );
+  return Promise.all(promiseList);
 };

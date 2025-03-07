@@ -20,7 +20,7 @@ import {
  * @returns {Application}
  *
  */
-export const ExpressLoader = (app: Application): Promise<Application> => {
+export const ExpressLoader = (app: Application): void => {
   app
     .use(helmet())
     .use(handleCors())
@@ -35,5 +35,4 @@ export const ExpressLoader = (app: Application): Promise<Application> => {
     .use(router)
     .use(unknownResourceHandler())
     .use(expressErrorHandler());
-  return Promise.resolve(app);
 };
