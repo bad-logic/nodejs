@@ -1,4 +1,5 @@
-yo soy un nino;hola
+como estas
+hola
 buenos dias
 buenas noches
 manzana
