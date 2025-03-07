@@ -2,5 +2,6 @@ node_modules/
 *.log
 *.out
 *.heapsnapshot
-
+*.iml
 .DS_Store
+.idea/
