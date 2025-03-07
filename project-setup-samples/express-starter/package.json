@@ -1,0 +1,63 @@
+{
+  "name": "express_starter",
+  "version": "1.0.0",
+  "description": "Express starter files",
+  "main": "build/src/http/server.js",
+  "scripts": {
+    "type-check": "tsc --project tsconfig.json --pretty --noEmit",
+    "lint": "eslint . --ext .ts",
+    "dev": "nodemon --config nodemon.json",
+    "prod": "tsc --project tsconfig.build.json && tsc-alias --project tsconfig.build.json && NODE_ENV=production node ./build/src/entrypoint/http/server.js",
+    "migration:generate": "typeorm-ts-node-esm migration:generate -d src/loaders/database/datasource.ts",
+    "migration:run": "typeorm migration:run -d ./build/src/loaders/database/datasource.js",
+    "migration:revert": "typeorm migration:revert -d ./build/src/loaders/database/datasource.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "private": true,
+  "devDependencies": {
+    "@types/compression": "^1.7.2",
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.21",
+    "@types/luxon": "^3.4.2",
+    "@types/morgan": "^1.9.3",
+    "@types/node": "^17.0.45",
+    "@types/omit-empty": "^1.0.1",
+    "@types/source-map-support": "^0.5.4",
+    "@types/uuid": "^8.3.4",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
+    "eslint": "^8.57.1",
+    "nodemon": "^3.1.9",
+    "prettier": "^2.6.2",
+    "rimraf": "^3.0.2",
+    "tsc-alias": "^1.8.11",
+    "typeorm-ts-node-esm": "^0.3.20",
+    "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "compression": "^1.8.0",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "express-http-context": "^1.2.4",
+    "helmet": "^5.1.1",
+    "http-status-codes": "^2.3.0",
+    "joi": "^17.13.3",
+    "joi-extract-type": "^15.0.8",
+    "luxon": "^3.5.0",
+    "morgan": "^1.10.0",
+    "omit-empty": "^1.0.0",
+    "pg": "^8.13.3",
+    "reflect-metadata": "^0.2.2",
+    "source-map-support": "^0.5.21",
+    "typeorm": "^0.3.21",
+    "uuid": "^8.3.2",
+    "winston": "^3.17.0"
+  },
+  "engineStrict": true,
+  "engines": {
+    "node": "22",
+    "npm": ">=8"
+  }
+}

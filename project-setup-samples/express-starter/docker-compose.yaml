@@ -1,0 +1,46 @@
+networks:
+  ex_starter_network:
+
+volumes:
+  starter_pg_data:
+
+services:
+  todo_backend_service:
+    image: todo
+    container_name: express_starter_container
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    environment:
+      - API_PORT=8080
+      - CORS_ALLOWED=http://localhost:3000
+#      - MAINTENANCE_MODE=0
+#      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=test
+      - DB_USER=test_user
+      - DB_PASSWORD=testUser$123
+#      - DB_DIALECT=postgres
+      - DEPLOYMENT_LANE=dev
+    networks:
+      - ex_starter_network
+    ports:
+      - 8080:8080
+    volumes:
+      - ./src:/usr/app/src:ro
+      - ./src/migrations:/usr/app/migrations:rw
+      - ./build:/usr/app/build:rw
+
+  postgres:
+    image: postgres
+    container_name: express-pg-container
+    environment:
+      POSTGRES_DB: test
+      POSTGRES_PASSWORD: testUser$123
+      POSTGRES_USER: test_user
+    networks:
+      - ex_starter_network
+    ports:
+      - '5432:5432'
+    volumes:
+      - starter_pg_data:/var/lib/postgresql/data
