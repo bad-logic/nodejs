@@ -33,6 +33,7 @@
     "prettier": "^2.6.2",
     "rimraf": "^3.0.2",
     "ts-node": "^10.9.2",
+    "tsc-alias": "^1.8.11",
     "tsconfig-paths": "^4.2.0",
     "typeorm-ts-node-esm": "^0.3.20",
     "typescript": "^4.9.5"
