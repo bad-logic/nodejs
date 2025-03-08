@@ -1,5 +1,7 @@
 #!/bin/zsh
 
+CONTAINER_NAME="express_starter_container"
+
 start(){
   docker compose -f docker-compose.yaml up --build
 }
@@ -8,16 +10,24 @@ generate_migration(){
    if [ -z "$1" ]; then
       echo "please provide migration file name"
   else
-      docker exec -it express_starter_container npm run migration:generate src/migrations/"$1"
+      docker exec -it "$CONTAINER_NAME" npm run migration:generate src/migrations/"$1"
   fi
 }
 
 run_migration(){
-      docker exec -it express_starter_container npm run migration:run
+      docker exec -it "$CONTAINER_NAME" npm run migration:run
 }
 
 revert_migration(){
-      docker exec -it express_starter_container npm run migration:revert
+      docker exec -it "$CONTAINER_NAME" npm run migration:revert
+}
+
+test(){
+  docker exec -it "$CONTAINER_NAME" npm run test
+}
+
+test_watch(){
+  docker exec -it "$CONTAINER_NAME" npm run test:watch
 }
 
 
@@ -33,6 +43,12 @@ elif [ "$1" = "migration:run" ]; then
 elif [ "$1" = "migration:revert" ]; then
     echo "reverting migration"
     revert_migration
+elif [ "$1" = "test" ]; then
+    echo "running test"
+    test
+elif [ "$1" = "test:watch" ]; then
+    echo "running test in watch mode"
+    test_watch
 else
     echo "unknown command $1 $2"
 fi

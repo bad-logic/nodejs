@@ -1,5 +1,6 @@
 import { DataSource,  } from "typeorm";
-import { Category, Todo } from "@modules/entities";
+
+import { Todo } from "@modules/entities";
 import environment from "@lib/environment";
 
 const pgDataSource = new DataSource({
@@ -11,7 +12,7 @@ const pgDataSource = new DataSource({
   database: environment.dbName,
   synchronize: false,
   logging: environment.dbLogging,
-  entities: [Todo, Category],
+  entities: [Todo],
   subscribers: [],
   migrations: ["src/migrations/*"],
 });

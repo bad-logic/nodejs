@@ -1,5 +1,6 @@
 /** Packages */
 import winston, { format, Logger } from "winston";
+
 import { DEPLOYMENT_ENVIRONMENT } from "@utils/enums";
 
 const initLevels = {

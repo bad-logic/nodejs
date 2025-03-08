@@ -1,4 +1,5 @@
 import cors, { CorsOptions } from "cors";
+
 import { environment } from "@lib/environment";
 import { MiddlewareFunction } from "@utils/types";
 import { DEPLOYMENT_ENVIRONMENT } from "@utils/enums";

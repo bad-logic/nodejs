@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+
 import { NotFoundError } from "@lib/error";
 import { MiddlewareFunction } from "@utils/types";
 

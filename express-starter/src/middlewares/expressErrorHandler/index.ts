@@ -1,7 +1,7 @@
 import { Request, Response, ErrorRequestHandler, NextFunction } from "express";
-import { ErrorHandler, GeneralError } from "@lib/error";
 import httpStatusCode from "http-status-codes";
-import { MiddlewareFunction } from "@utils/types";
+
+import { ErrorHandler, GeneralError } from "@lib/error";
 
 /**
  *

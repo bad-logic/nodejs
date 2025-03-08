@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import morgan, { StreamOptions, TokenIndexer, FormatFn } from "morgan";
+
 import { MiddlewareFunction } from "@utils/types";
 import { logger } from "@utils/logger";
 

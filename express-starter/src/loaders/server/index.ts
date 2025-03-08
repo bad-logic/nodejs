@@ -1,5 +1,7 @@
-import http, { Server } from "http";
+import http, { Server } from "node:http";
+
 import { Application } from "express";
+
 import { environment } from "@lib/environment";
 import { ErrorHandler } from "@lib/error";
 

@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars */
 
+import { CustomFunction } from "@utils/types";
 import {
   createLogger,
   ILoggerOptions,
   Logger as wLogger,
   LogLevels,
 } from "./winstonLogger";
-import { CustomFunction } from "@utils/types";
 
 export type { ILoggerOptions, LogLevels };
 
@@ -14,8 +14,8 @@ export interface LogOptions extends ILoggerOptions {
   metaProvider?: CustomFunction<Record<string, unknown>>;
 }
 export class Logger {
-  private _logger: wLogger;
-  private _getMetas: CustomFunction<Record<string, unknown>> | undefined;
+  private readonly _logger: wLogger;
+  private readonly _getMetas: CustomFunction<Record<string, unknown>> | undefined;
 
   /**
    *
@@ -85,7 +85,7 @@ export class Logger {
   private log(
     level: LogLevels,
     info: unknown,
-    msg = "",
+    msg: string = "",
     filename?: string
   ): void {
     if (typeof info === "string") {

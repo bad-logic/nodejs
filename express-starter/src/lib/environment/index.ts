@@ -1,7 +1,9 @@
-import { URL } from "url";
+import { URL } from "node:url";
+
+import Joi from "joi";
+
 import { DEPLOYMENT_ENVIRONMENT } from "@utils/enums";
 import { LogLevels } from "@modules/logger";
-import Joi from "joi";
 
 type dialect = "mysql"|"postgres"
 
@@ -27,7 +29,7 @@ const environmentSchema = Joi.object({
     DB_DIALECT: Joi.string().valid("mysql","postgres").required()
 });
 
-class Environment {
+export class Environment {
     apiPort: number;
     deploymentEnvironment: DEPLOYMENT_ENVIRONMENT = DEPLOYMENT_ENVIRONMENT.DEVELOPMENT;
     dbHost: string;

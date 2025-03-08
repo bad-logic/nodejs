@@ -10,7 +10,9 @@
     "prod": "tsc --project tsconfig.build.json && tsc-alias --project tsconfig.build.json && NODE_ENV=production node ./build/src/entrypoint/http/server.js",
     "migration:generate": "node -r tsconfig-paths/register -r ts-node/esm node_modules/.bin/typeorm migration:generate -o -d src/loaders/database/datasource.js",
     "migration:run": "typeorm migration:run -d ./build/src/loaders/database/datasource.js",
-    "migration:revert": "typeorm migration:revert -d ./build/src/loaders/database/datasource.js"
+    "migration:revert": "typeorm migration:revert -d ./build/src/loaders/database/datasource.js",
+    "test": "node --test",
+    "test:watch": "node --test --watch"
   },
   "keywords": [],
   "author": "",
@@ -22,7 +24,7 @@
     "@types/express": "^4.17.21",
     "@types/luxon": "^3.4.2",
     "@types/morgan": "^1.9.3",
-    "@types/node": "^17.0.45",
+    "@types/node": "^22.13.9",
     "@types/omit-empty": "^1.0.1",
     "@types/source-map-support": "^0.5.4",
     "@types/uuid": "^8.3.4",

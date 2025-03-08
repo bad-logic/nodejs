@@ -1,4 +1,5 @@
 import httpStatusCode from "http-status-codes";
+
 import { logger } from "@utils/logger";
 
 interface ErrorOptions {

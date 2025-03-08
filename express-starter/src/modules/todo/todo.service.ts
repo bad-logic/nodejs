@@ -1,6 +1,6 @@
-import  pgDataSource  from "../../loaders/database/datasource";
 import { Todo } from "@modules/entities";
 import { NotFoundError } from "@lib/error";
+import  pgDataSource  from "../../loaders/database/datasource";
 
 const todoRepository = pgDataSource.getRepository(Todo);
 

@@ -1,4 +1,5 @@
 import Joi from "joi";
+
 import { MiddlewareFunction } from "@utils/types";
 import { ValidationError } from "@lib/error";
 
