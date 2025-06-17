@@ -1,0 +1,41 @@
+volumes:
+  db-data:
+  redis-data:
+
+services:
+  redis:
+    container_name: redis-service
+    image: redis
+    volumes:
+      - redis-data:/data
+    ports:
+      - 6379:6379
+
+  nestjs-app:
+    container_name: nestjs-prisma-test-server
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: application
+    image: nest-prisma:v1.0.0
+    command: npm run start:dev
+    env_file:
+      - .env
+    ports:
+      - 3000:3000
+    volumes:
+      # - ./build:/usr/app/dist/
+      - ./prisma:/usr/app/prisma
+      - ./src:/usr/app/src
+
+  postgres:
+    container_name: postgres-prisma-test
+    image: postgres
+    environment:
+      POSTGRES_USER: roshan
+      POSTGRES_PASSWORD: mySecret@123
+      POSTGRES_DB: prisma-test
+    ports:
+      - 5432:5432
+    volumes:
+      - db-data:/var/lib/postgresql/data

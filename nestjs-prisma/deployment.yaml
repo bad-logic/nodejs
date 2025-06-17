@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prisma-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prisma-test-depl
+  template:
+    metadata:
+      labels:
+        app: prisma-test-depl
+    spec:
+      containers:
+        - name: payments
+          image: nestjs-prisma-test-server
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prisma-clusterip-srv
+spec:
+  selector:
+    app: prisma-test-depl
+  type: ClusterIP
+  ports:
+    - name: prisma-ports
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
